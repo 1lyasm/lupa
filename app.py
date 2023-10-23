@@ -2,9 +2,13 @@ import flask as fl
 import pandas as pd
 import math
 import copy
+import time
 
 app = fl.Flask(__name__)
 app.secret_key = 'secret_key'
+
+def page_rank_key(e):
+    return e[0]
 
 class PageRank:
     def compute_outgoing_weights(self, graph, node_count):
@@ -16,32 +20,35 @@ class PageRank:
             outgoing_weights[i] = outgoing_weight
         return outgoing_weights
 
-    def update_value(self, page_rank_values, node_index, graph,
+    def update_value(self, node_index, graph,
                      node_count, old_values, damping_term, outgoing_weights,
                      damping_factor):
-        print(f"node_index: {node_index}")
+        # print(f"node_index: {node_index}")
         new_value = damping_term
         page_rank_sum = 0
         for other_node_index in range(node_count):
-            print(f"other_node_index: {other_node_index}")
+            # print(f"other_node_index: {other_node_index}")
             if other_node_index == node_index:
-                print(f"update_value: same node")
+                # print(f"update_value: same node")
                 continue
-            print(f"graph[node_index][other_node_index]: {graph[node_index][other_node_index]}")
-            print(f"math.ceil(graph[node_index][other_node_index]): {math.ceil(graph[node_index][other_node_index])}")
+            # print(f"graph[node_index][other_node_index]: {graph[node_index][other_node_index]}")
+            # print(f"math.ceil(graph[node_index][other_node_index]): {math.ceil(graph[node_index][other_node_index])}")
             if math.ceil(graph[node_index][other_node_index] > 0):
-                print(f"update_value: ceil == 1")
-                print(f"old_values[other_node_index]: {old_values[other_node_index]}")
-                print(f"outgoing_weights[other_node_index]: {outgoing_weights[other_node_index]}")
+                # print(f"update_value: ceil == 1")
+                # print(f"old_values[other_node_index]: {old_values[other_node_index]}")
+                # print(f"outgoing_weights[other_node_index]: {outgoing_weights[other_node_index]}")
                 page_rank_sum += old_values[other_node_index] / outgoing_weights[other_node_index]
-        print(f"page_rank_sum: {page_rank_sum}")
+        # print(f"page_rank_sum: {page_rank_sum}")
         result = new_value + damping_factor * page_rank_sum
-        print(f"update_value: result: {result}")
+        # print(f"update_value: result: {result}")
         return result
 
     def run(self, graph, names):
-        iteration_count = 100
+        start = time.time()
+
+        iteration_count = 10
         damping_factor = 0.85
+        result_count = 10
 
         node_count = len(graph)
         print(f"node_count: {node_count}")
@@ -53,29 +60,37 @@ class PageRank:
         print(f"len(page_rank_values): {len(page_rank_values)}")
         # print(f"page_rank_values: {page_rank_values}")
         outgoing_weights = self.compute_outgoing_weights(graph, node_count)
-        print(f"outgoing_weights: {outgoing_weights}")
+        # print(f"outgoing_weights: {outgoing_weights}")
 
         for i in range(iteration_count):
-            old_values = []
-            for value in page_rank_values:
-                old_values.append(value)
+            # old_values = []
+            # for value in page_rank_values:
+                # old_values.append(value)
+            old_values = page_rank_values.copy()
             for node_index in range(node_count):
-                page_rank_values[node_index] = self.update_value(page_rank_values,
+                page_rank_values[node_index] = self.update_value(
                                             node_index, graph, node_count, old_values,
                                             damping_term, outgoing_weights,
                                             damping_factor)
-                print(f"old_values: {old_values}")
-        string_list = [str(x) for x in page_rank_values]
-        return " ".join(string_list)
+                # print(f"old_values: {old_values}")
+        value_name = [(page_rank_values[i], names[i]) for i in range(node_count)]
+        print(f"value_name: {value_name}")
+        value_name.sort(key=page_rank_key, reverse=True)
+        print(f"value_name after sort: {value_name}")
+        string_list = [x[1] for x in value_name][:result_count]
+
+        end = time.time()
+
+        return string_list, round(end - start, 2)
 
 class Hits:
     def run(self, graph, names):
-        return f"Ran Hits"
+        return f"Ran Hits", 0
 
 
 class Discovery:
     def run(self, graph, names):
-        return f"Ran Discovery"
+        return f"Ran Discovery", 0
 
 class Output:
     def __init__(self, pagerank, hits, discovery):
@@ -114,11 +129,12 @@ class Output:
         graph = self.df_to_graph(as_list)
         names = self.extract_names(df)
         if selected_algo == "PageRank":
-            self.data = self.pagerank.run(graph, names)
+            self.data, time = self.pagerank.run(graph, names)
+            print(time)
         elif selected_algo == "HITS":
-            self.data = self.hits.run(graph, names)
+            self.data, time = self.hits.run(graph, names)
         elif selected_algo == "Community discovery":
-            self.data = self.discovery.run(graph, names)
+            self.data, time = self.discovery.run(graph, names)
 
 pagerank = PageRank()
 hits = Hits()

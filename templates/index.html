@@ -20,7 +20,13 @@
             </form>
             <p> Selected algorithm: {{ selected_algo }} </p>
             <p> Selected dataset: {{ selected_dataset }} </p>
-            <p> Output: {{ output }} </p>
+            <p> Output: </p>
+            {%- for line in output -%}
+                {{ line }}
+                {%- if not loop.last -%}
+                    <br />
+                {%- endif -%}
+            {%- endfor -%}
         </div>
-   </body>
+    </body>
 </html>
