@@ -1,20 +1,21 @@
 import flask as fl
+import pandas as pd
 
 app = fl.Flask(__name__)
 app.secret_key = 'secret_key'
 
 class PageRank:
-    def run(self, dataset):
-        return f"Ran PageRank on {dataset}"
+    def run(self, df):
+        return f"Ran PageRank"
 
 class Hits:
-    def run(self, dataset):
-        return f"Ran Hits on {dataset}"
+    def run(self, df):
+        return f"Ran Hits"
 
 
 class Discovery:
-    def run(self, dataset):
-        return f"Ran Discovery on {dataset}"
+    def run(self, df):
+        return f"Ran Discovery"
 
 class Output:
     def __init__(self, pagerank, hits, discovery):
@@ -24,12 +25,24 @@ class Output:
         self.discovery = discovery
 
     def update(self, selected_algo, selected_dataset):
+        if selected_dataset == "Facebook":
+            print("facebook")
+            df = pd.read_excel("datasets/facebook.xlsx")
+            print(df)
+        elif selected_dataset == "Instagram":
+            df = pd.read_excel("datasets/instagram.xlsx")
+            print("instagram")
+            print(df)
+        elif selected_dataset == "Twitter":
+            df = pd.read_excel("datasets/twitter.xlsx")
+            print("twitter")
+            print(df)
         if selected_algo == "PageRank":
-            self.data = self.pagerank.run(selected_dataset)
+            self.data = self.pagerank.run(df)
         elif selected_algo == "HITS":
-            self.data = self.hits.run(selected_dataset)
+            self.data = self.hits.run(df)
         elif selected_algo == "Community discovery":
-            self.data = self.discovery.run(selected_dataset)
+            self.data = self.discovery.run(df)
 
 pagerank = PageRank()
 hits = Hits()
