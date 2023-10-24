@@ -85,12 +85,12 @@ class PageRank:
 
 class Hits:
     def run(self, graph, names):
-        return f"Ran Hits", 0
+        return [f"Ran Hits"], 0
 
 
 class Discovery:
     def run(self, graph, names):
-        return f"Ran Discovery", 0
+        return [f"Ran Discovery"], 0
 
 class Output:
     def __init__(self, pagerank, hits, discovery):
