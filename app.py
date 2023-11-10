@@ -51,13 +51,13 @@ class PageRank:
         result_count = 10
 
         node_count = len(graph)
-        print(f"node_count: {node_count}")
+        # print(f"node_count: {node_count}")
         damping_term = (1.0 - damping_factor) / node_count
-        print(f"damping_term: {damping_term}")
+        # print(f"damping_term: {damping_term}")
         initial_value = 1.0 / node_count
-        print(f"initial_value: {initial_value}")
+        # print(f"initial_value: {initial_value}")
         page_rank_values = [initial_value for i in range(node_count)]
-        print(f"len(page_rank_values): {len(page_rank_values)}")
+        # print(f"len(page_rank_values): {len(page_rank_values)}")
         # print(f"page_rank_values: {page_rank_values}")
         outgoing_weights = self.compute_outgoing_weights(graph, node_count)
         # print(f"outgoing_weights: {outgoing_weights}")
@@ -74,9 +74,9 @@ class PageRank:
                                             damping_factor)
                 # print(f"old_values: {old_values}")
         value_name = [(page_rank_values[i], names[i]) for i in range(node_count)]
-        print(f"value_name: {value_name}")
+        # print(f"value_name: {value_name}")
         value_name.sort(key=page_rank_key, reverse=True)
-        print(f"value_name after sort: {value_name}")
+        # print(f"value_name after sort: {value_name}")
         string_list = [x[1] for x in value_name][:result_count]
 
         end = time.time()
