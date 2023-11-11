@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lupa</title>
+    </head>
+    <body>
+        <div>
+            <form method="post">
+                <select name="selected_algo" id="algos">
+                    <option value="PageRank">PageRank</option>
+                    <option value="HITS">HITS</option>
+                    <option value="Community discovery">Community discovery</option>
+                </select>
+                <select name="selected_dataset" id="datasets">
+                    <option value="Facebook">Facebook</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="Twitter">Twitter</option>
+                </select>
+                <input type="submit" value="Run">
+            </form>
+            <p> Selected algorithm: {{ selected_algo }} </p>
+            <p> Selected dataset: {{ selected_dataset }} </p>
+            <p> Output: </p>
+            {%- for line in output -%}
+                {{ line }}
+                {%- if not loop.last -%}
+                    <br />
+                {%- endif -%}
+            {%- endfor -%}
+        </div>
+    </body>
+</html>
