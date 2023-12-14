@@ -52,9 +52,8 @@ class PageRank:
                                             damp_factor)
         value_name = [(pr[i], names[i]) for i in range(n_node)]
         value_name.sort(key=pr_key, reverse=True)
-        str_list = [x[1] for x in value_name][:n_res]
-        pr.sort(reverse=True)
-        print(pr[:n_res])
+        str_list = [x[1] + ": " + str(round(x[0], 7)) for x in value_name][:n_res]
+        print(sum(pr))
         end = time.time()
         return str_list, round(end - start, 2)
 
@@ -101,7 +100,7 @@ class Output:
         names = self.extract_names(df)
         if selected_algo == "PageRank":
             self.data, time = self.pagerank.run(graph, names)
-            print(time)
+            print(f"PageRank took {time} seconds")
         elif selected_algo == "HITS":
             self.data, time = self.hits.run(graph, names)
         elif selected_algo == "Community discovery":
