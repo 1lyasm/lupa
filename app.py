@@ -1,6 +1,6 @@
 import flask as fl
 import pandas as pd
-from pr import PageRank, pr_key
+from pr import PageRank
 from hits import Hits
 from disc import Discovery
 
