@@ -23,24 +23,14 @@ class PageRank:
     def update_value(self, node_index, graph,
                      node_count, old_values, damping_term, outgoing_weights,
                      damping_factor):
-        # print(f"node_index: {node_index}")
         new_value = damping_term
         page_rank_sum = 0
         for other_node_index in range(node_count):
-            # print(f"other_node_index: {other_node_index}")
             if other_node_index == node_index:
-                # print(f"update_value: same node")
                 continue
-            # print(f"graph[node_index][other_node_index]: {graph[node_index][other_node_index]}")
-            # print(f"math.ceil(graph[node_index][other_node_index]): {math.ceil(graph[node_index][other_node_index])}")
             if math.ceil(graph[node_index][other_node_index] > 0):
-                # print(f"update_value: ceil == 1")
-                # print(f"old_values[other_node_index]: {old_values[other_node_index]}")
-                # print(f"outgoing_weights[other_node_index]: {outgoing_weights[other_node_index]}")
                 page_rank_sum += old_values[other_node_index] / outgoing_weights[other_node_index]
-        # print(f"page_rank_sum: {page_rank_sum}")
         result = new_value + damping_factor * page_rank_sum
-        # print(f"update_value: result: {result}")
         return result
 
     def run(self, graph, names):
@@ -51,32 +41,20 @@ class PageRank:
         result_count = 10
 
         node_count = len(graph)
-        # print(f"node_count: {node_count}")
         damping_term = (1.0 - damping_factor) / node_count
-        # print(f"damping_term: {damping_term}")
         initial_value = 1.0 / node_count
-        # print(f"initial_value: {initial_value}")
         page_rank_values = [initial_value for i in range(node_count)]
-        # print(f"len(page_rank_values): {len(page_rank_values)}")
-        # print(f"page_rank_values: {page_rank_values}")
         outgoing_weights = self.compute_outgoing_weights(graph, node_count)
-        # print(f"outgoing_weights: {outgoing_weights}")
 
         for i in range(iteration_count):
-            # old_values = []
-            # for value in page_rank_values:
-                # old_values.append(value)
             old_values = page_rank_values.copy()
             for node_index in range(node_count):
                 page_rank_values[node_index] = self.update_value(
                                             node_index, graph, node_count, old_values,
                                             damping_term, outgoing_weights,
                                             damping_factor)
-                # print(f"old_values: {old_values}")
         value_name = [(page_rank_values[i], names[i]) for i in range(node_count)]
-        # print(f"value_name: {value_name}")
         value_name.sort(key=page_rank_key, reverse=True)
-        # print(f"value_name after sort: {value_name}")
         string_list = [x[1] for x in value_name][:result_count]
 
         end = time.time()
@@ -112,15 +90,11 @@ class Output:
     def df_to_graph(self, as_list):
         graph = list(map(lambda x:x[1:], as_list))
         graph = [list( map(int,i) ) for i in graph]
-        # print(f"len(graph): {len(graph)}")
-        # print(f"len(graph[0]: {len(graph[0])}")
-        # print(f"graph: {graph}")
         return graph
 
     def extract_names(self, df):
         names = df.columns.tolist()[1:]
         names = list(map(lambda x: x.replace(u'\xa0', u'').strip(), names))
-        # print(f"len(names): {len(names)}")
         return names
 
     def update(self, selected_algo, selected_dataset):
