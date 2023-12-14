@@ -7,59 +7,56 @@ import time
 app = fl.Flask(__name__)
 app.secret_key = 'secret_key'
 
-def page_rank_key(e):
+def pr_key(e):
     return e[0]
 
 class PageRank:
-    def compute_outgoing_weights(self, graph, node_count):
-        outgoing_weights = [0 for i in range(node_count)]
-        for i in range(node_count):
+    def compute_out_weights(self, graph, n_node):
+        out_weights = [0 for i in range(n_node)]
+        for i in range(n_node):
             outgoing_weight = 0
-            for j in range(node_count):
+            for j in range(n_node):
                 outgoing_weight += int(math.ceil(graph[j][i]))
-            outgoing_weights[i] = outgoing_weight
-        return outgoing_weights
+            out_weights[i] = outgoing_weight
+        return out_weights
 
-    def update_value(self, node_index, graph,
-                     node_count, old_values, damping_term, outgoing_weights,
-                     damping_factor):
-        new_value = damping_term
+    def update_value(self, node_idx, graph,
+                     n_node, old_values, damp_term, out_weights,
+                     damp_factor):
+        new_value = damp_term
         page_rank_sum = 0
-        for other_node_index in range(node_count):
-            if other_node_index == node_index:
+        for other_node_idx in range(n_node):
+            if other_node_idx == node_idx:
                 continue
-            if math.ceil(graph[node_index][other_node_index] > 0):
-                page_rank_sum += old_values[other_node_index] / outgoing_weights[other_node_index]
-        result = new_value + damping_factor * page_rank_sum
+            if math.ceil(graph[node_idx][other_node_idx] > 0):
+                page_rank_sum += old_values[other_node_idx] / out_weights[other_node_idx]
+        result = new_value + damp_factor * page_rank_sum
         return result
 
     def run(self, graph, names):
         start = time.time()
-
-        iteration_count = 10
-        damping_factor = 0.85
-        result_count = 10
-
-        node_count = len(graph)
-        damping_term = (1.0 - damping_factor) / node_count
-        initial_value = 1.0 / node_count
-        page_rank_values = [initial_value for i in range(node_count)]
-        outgoing_weights = self.compute_outgoing_weights(graph, node_count)
-
-        for i in range(iteration_count):
-            old_values = page_rank_values.copy()
-            for node_index in range(node_count):
-                page_rank_values[node_index] = self.update_value(
-                                            node_index, graph, node_count, old_values,
-                                            damping_term, outgoing_weights,
-                                            damping_factor)
-        value_name = [(page_rank_values[i], names[i]) for i in range(node_count)]
-        value_name.sort(key=page_rank_key, reverse=True)
-        string_list = [x[1] for x in value_name][:result_count]
-
+        n_iter = 10
+        damp_factor = 0.85
+        n_res = 10
+        n_node = len(graph)
+        damp_term = (1.0 - damp_factor) / n_node
+        init_val = 1.0 / n_node
+        pr = [init_val for i in range(n_node)]
+        out_weights = self.compute_out_weights(graph, n_node)
+        for i in range(n_iter):
+            old_values = pr.copy()
+            for node_idx in range(n_node):
+                pr[node_idx] = self.update_value(
+                                            node_idx, graph, n_node, old_values,
+                                            damp_term, out_weights,
+                                            damp_factor)
+        value_name = [(pr[i], names[i]) for i in range(n_node)]
+        value_name.sort(key=pr_key, reverse=True)
+        str_list = [x[1] for x in value_name][:n_res]
+        pr.sort(reverse=True)
+        print(pr[:n_res])
         end = time.time()
-
-        return string_list, round(end - start, 2)
+        return str_list, round(end - start, 2)
 
 class Hits:
     def run(self, graph, names):
