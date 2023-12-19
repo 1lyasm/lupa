@@ -29,6 +29,7 @@ class PageRank:
         start = time.time()
         n_iter = 10
         damp_factor = 0.85
+        
         n_res = 10
         n_node = len(graph)
         damp_term = (1.0 - damp_factor) / n_node
@@ -45,7 +46,6 @@ class PageRank:
         val_name = [(pr[i], names[i]) for i in range(n_node)]
         val_name.sort(key=pr_key, reverse=True)
         str_list = [x[1] + ": " + str(round(x[0], 7)) for x in val_name][:n_res]
-        print(sum(pr))
         end = time.time()
         return str_list, round(end - start, 2)
 

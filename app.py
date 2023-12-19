@@ -1,5 +1,6 @@
 import flask as fl
 import pandas as pd
+import numpy as np
 from pr import PageRank
 from hits import Hits
 from disc import Discovery
