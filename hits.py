@@ -15,10 +15,9 @@ class Hits:
         auths = [(names[idx], val) for idx, val in a.items()]
         hubs.sort(key=hits_key, reverse=True)
         auths.sort(key=hits_key, reverse=True)
-        str_list = [v[0] + ": " + str(round(v[1], 7)) for v in hubs][:n_res]
-        str_list.insert(0, "Hubs:")
-        str_list.append("")
-        str_list.append("Authorities:")
+        str_list = ["Hubs:", ""]
+        str_list.extend([v[0] + ": " + str(round(v[1], 7)) for v in hubs][:n_res])
+        str_list.extend(["", "Authorities:", ""])
         str_list.extend([v[0] + ": " + str(round(v[1], 7)) 
                             for v in auths][:n_res])
         end = time.time()
