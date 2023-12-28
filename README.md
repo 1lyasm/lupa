@@ -6,3 +6,5 @@ Average path length: average length of shortest paths between all nodes in a com
 NMI score: normalized mutual information score of clustering outputs of two algorithms.
 
 Represents similarity between outputs. 0 means exactly same, 1 means totally different.
+
+![](assets/video.mp4)
