@@ -6,6 +6,40 @@
         margin-left: 500px;
         padding-top: 100px;
     }
+
+    #algos {
+        border-radius: 5px;
+        width: 200px;
+        height: 50px;
+        margin-top: 25px;
+        text-align: center;
+        margin-left: 0px;
+        background-color: rgb(193, 223, 236);
+        border-color: rgb(113, 143, 156);
+    }
+
+    #datasets {
+        border-radius: 5px;
+        width: 200px;
+        height: 50px;
+        margin-top: 25px;
+        text-align: center;
+        margin-left: 100px;
+        background-color: rgb(193, 223, 236);
+        border-color: rgb(113, 143, 156);
+    }
+
+    .start {
+        padding-top: 15px;
+        margin-left: 700px;
+    }
+
+    #run_button {
+        margin-top: 25px;
+        width: 50px;
+        height: 35px;
+        text-align: center;
+    }
 </style>
 
 <head>
@@ -13,7 +47,7 @@
 </head>
 
 <body>
-    <div>
+    <div class="start">
         <form method="post">
             <select name="selected_algo" id="algos">
                 <option value="PageRank">PageRank</option>
@@ -25,7 +59,8 @@
                 <option value="Instagram">Instagram</option>
                 <option value="Twitter">Twitter</option>
             </select>
-            <input type="submit" value="Run">
+            <br>
+            <input type="submit" value="Run" id="run_button">
         </form>
         <p> Selected algorithm: {{ selected_algo }} </p>
         <p> Selected dataset: {{ selected_dataset }} </p>
