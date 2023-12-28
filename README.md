@@ -1,4 +1,4 @@
-This is a site that allows users to run PageRank, HITS and Louvain and Leiden community discovery algorithms.
+Lupa is a site that allows users to run PageRank, HITS and Louvain and Leiden community discovery algorithms.
 It is written using Flask, networkx, and scipy.
 
 <br>
