@@ -7,4 +7,6 @@ NMI score: normalized mutual information score of clustering outputs of two algo
 
 Represents similarity between outputs. 0 means exactly same, 1 means totally different.
 
-![](assets/video.mp4)
+<video width="320" height="240" controls>
+  <source src="assets/video.mp4" type="video/mp4">
+</video>
