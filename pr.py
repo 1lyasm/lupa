@@ -1,6 +1,9 @@
-import time
+import networkx as nx
+import numpy as np
+import time as time
+from sknetwork.visualization import svg_graph
+import scipy as scipy
 import math
-import copy
 
 class PageRank:
     def compute_out_weights(self, graph, n_node):
@@ -46,8 +49,10 @@ class PageRank:
         val_name = [(pr[i], names[i]) for i in range(n_node)]
         val_name.sort(key=pr_key, reverse=True)
         str_list = [x[1] + ": " + str(round(x[0], 7)) for x in val_name][:n_res]
+        image = svg_graph(scipy.sparse.csr_matrix(graph),
+                          scores=pr, width=1200, height=1000)
         end = time.time()
-        return str_list, round(end - start, 2)
+        return str_list, round(end - start, 2), image
 
 def pr_key(e):
     return e[0]

@@ -4,6 +4,7 @@ import numpy as np
 from pr import PageRank
 from hits import Hits
 from disc import Discovery
+import markupsafe
 
 app = fl.Flask(__name__)
 app.secret_key = 'secret_key'
@@ -14,6 +15,7 @@ class Output:
         self.pr = pr
         self.hits = hits
         self.discovery = discovery
+        self.svg = ""
 
     def read_df(self, file_name):
         df = None
@@ -40,11 +42,12 @@ class Output:
         as_list = df.values.tolist()
         graph = self.df_to_graph(as_list)
         names = self.extract_names(df)
+        self.svg = ""
         if selected_algo == "PageRank":
-            self.data, time = self.pr.run(graph, names)
+            self.data, time, self.svg = self.pr.run(graph, names)
             print(f"pr took {time} seconds")
         elif selected_algo == "HITS":
-            self.data, time = self.hits.run(graph, names)
+            self.data, time, self.svg = self.hits.run(graph, names)
         elif selected_algo == "Community discovery":
             self.data, time = self.discovery.run(graph, names)
 
@@ -69,7 +72,7 @@ def home():
     selected_dataset = fl.session.get('selected_dataset', '')
     return fl.render_template("index.html", selected_algo=algo,
                               selected_dataset=selected_dataset,
-                              output=output.data)
+                                  output=output.data, svg=markupsafe.Markup(output.svg))
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)

@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
 
+<style>
+    #svg_graph {
+        margin-left: 500px;
+        padding-top: 100px;
+    }
+</style>
+
 <head>
     <title>Lupa</title>
 </head>
@@ -29,6 +36,9 @@
         <br />
         {%- endif -%}
         {%- endfor -%}
+    </div>
+    <div id="svg_graph">
+        {{svg}}
     </div>
 </body>
 
