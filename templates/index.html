@@ -48,6 +48,14 @@
         border-color: rgba(23, 167, 0, 0.42);
         border-radius: 10px;
     }
+
+    #texts {
+        margin-top: 50px;
+        font-size: x-large;
+        position: absolute;
+        left: 40px;
+        top: 150px;
+    }
 </style>
 
 <head>
@@ -70,15 +78,17 @@
             <br>
             <input type="submit" value="Run" id="run_button">
         </form>
-        <p> Selected algorithm: {{ selected_algo }} </p>
-        <p> Selected dataset: {{ selected_dataset }} </p>
-        <p> Output: </p>
-        {%- for line in output -%}
-        {{ line }}
-        {%- if not loop.last -%}
-        <br />
-        {%- endif -%}
-        {%- endfor -%}
+        <div id="texts">
+            <p> Selected algorithm: {{ selected_algo }} </p>
+            <p> Selected dataset: {{ selected_dataset }} </p>
+            <p> Output: </p>
+            {%- for line in output -%}
+            {{ line }}
+            {%- if not loop.last -%}
+            <br />
+            {%- endif -%}
+            {%- endfor -%}
+        </div>
     </div>
     <div id="svg_graph">
         {{svg}}
