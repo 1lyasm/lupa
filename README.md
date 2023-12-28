@@ -1,6 +1,8 @@
 This is a site that allows users to run PageRank, HITS and Louvain and Leiden community discovery algorithms.
 It is written using Flask, networkx, and scipy.
 
+<br>
+
 https://github.com/1lyasm/lupa/assets/84722851/df7f9877-d958-4d5c-9656-64eaf892b7c2
 
 # Community discovery
