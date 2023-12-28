@@ -5,6 +5,8 @@ It is written using Flask, networkx, and scipy.
 
 https://github.com/1lyasm/lupa/assets/84722851/df7f9877-d958-4d5c-9656-64eaf892b7c2
 
+<br>
+
 # Community discovery
 Node count: number of nodes in a community
 
